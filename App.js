@@ -199,22 +199,22 @@ export default App;
 
 // Loader 
 
-import React from  'react';
+import React, {useState} from  'react';
 import {Text , View , ActivityIndicator, StyleSheet, Button} from 'react-native'
 
 const App =()=>{
 
-  const [show, setShow]=useState(false);
+  const [show, setShow]=useState(false)
   const displayLoader=()=>{
     setShow(true);
 
   setTimeout(() =>{
 setShow(false)
-  }, 5000);
+  }, 3000);
   }
 return(
   <View style={styles.main}>
-    <ActivityIndicator size="small" color="#000"/>
+    <ActivityIndicator size="large" color="#000" animating={show}/>
     <Button title='show loader' onPress={displayLoader}></Button>
   </View>
 )
