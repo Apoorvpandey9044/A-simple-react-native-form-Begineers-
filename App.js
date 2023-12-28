@@ -287,3 +287,39 @@ const styles = StyleSheet.create({
 
 
 export default App;
+
+// status bar for android 
+
+import { StatusBar } from 'expo-status-bar';
+import React, {useState} from  'react';
+import {Text , View , StyleSheet, Modal, Button} from 'react-native'
+
+const App =()=>{
+  const [hide , setHide] = useState(false);
+  const [barStyle, setBarStyle] = useState("default");
+ return(
+  <View style = {styles.container}>
+    <StatusBar
+    backgroundColor="orange"
+    barStyle={barStyle}
+    hidden={hide}
+    >
+
+    </StatusBar>
+      <Button title='but' onPress={()=>setHide(!hide)}/>
+      <Button title='but' onPress={()=>setBarStyle("dark-content")} />
+      
+  </View>
+ );
+};
+
+const styles = StyleSheet.create({
+container:{
+  flex:1,
+  justifyContent:'center'
+} 
+});
+
+
+
+export default App;
