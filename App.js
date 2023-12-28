@@ -230,3 +230,60 @@ const styles = StyleSheet.create({
 
 export default App;
 
+
+// Modal 
+
+import React, {useState} from  'react';
+import {Text , View , StyleSheet, Modal, Button} from 'react-native'
+
+const App =()=>{
+  const [showModal, setShowModal] = useState(false)
+  return(
+  <View style={styles.main}>
+    <Modal
+    transparent={true}
+    visible={showModal}
+    animationType="slide">
+      <View style={styles.centeredView}>
+        <View style={styles.apoo}>
+          <Text style={styles.pand}>Hello I am apoorv!!</Text>
+          <Button title='close modal' onPress={()=>setShowModal(false)}></Button>
+        </View>
+      </View>
+    </Modal>
+   <View style={styles.buttonView}>
+    <Button title = 'show Modal'onPress={()=>setShowModal(true)}></Button>
+    </View> 
+  </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  main:{
+    flex:1
+  },
+  buttonView:{
+    flex:1,
+    justifyContent:'flex-end'
+  },
+  centeredView:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  apoo:{
+    backgroundColor:"#9acd32",
+    padding:40,
+    borderRadius:30,
+    shadowColor: 'black',
+    elevation:20
+  },
+  pand:{
+    fontSize:20,
+    marginBottom:10
+  }
+})
+
+
+
+export default App;
