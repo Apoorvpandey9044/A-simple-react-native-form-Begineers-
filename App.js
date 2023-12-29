@@ -323,3 +323,19 @@ container:{
 
 
 export default App;
+
+// if you want to run any website on android or ios 
+
+import { StatusBar } from 'expo-status-bar';
+import React, {useState} from  'react';
+import {Text , View , StyleSheet, Modal, Button} from 'react-native';
+import {WebView} from 'react-native-webview'
+
+const App =()=>{
+ return(
+<WebView source={{uri:"https://apoorvpandey9044.github.io/Portfolio-Website/"}}></WebView>
+ )}
+
+
+
+export default App;
