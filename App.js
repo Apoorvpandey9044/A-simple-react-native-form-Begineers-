@@ -348,7 +348,7 @@ For rest read documentation on :- React navigation
 
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from  'react';
-import {Text , View , StyleSheet, Modal, Button} from 'react-native';
+import {Text , View , StyleSheet, Modal, Button, TextInput} from 'react-native';
 import {WebView} from 'react-native-webview';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -356,47 +356,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
 const App =()=>{
- return(
-<NavigationContainer>
-<Stack.Navigator>
-<Stack.Screen name='Login' component={Login}></Stack.Screen>
-<Stack.Screen name='Home 1' component={Home}></Stack.Screen>
-</Stack.Navigator>
-</NavigationContainer>
- )};
-
- const Home=()=>{
-  return (<View style = {{flex:1, justifyContent: 'center', alignItems: 'center' }}>
-<Text style={{fontSize:30}}>Home Screen</Text>
-  </View>
-  )
-  };
-
-  const Login=(props)=>{
-    return (<View style = {{flex:1, justifyContent: 'center', alignItems: 'center' }}>
-  <Text style={{fontSize:30}}>Login Screen</Text>
-  <View style={{margin:10}}>
-  <Button title='Press-Here' onPress={()=> props.navigation.navigate("Home 1")}></Button>
-  </View>
-
-    </View>
-    )
-    }
-
-
-
-export default App;
-// stack me color kaise change kr sakte hai 
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from  'react';
-import {Text , View , StyleSheet, Modal, Button} from 'react-native';
-import {WebView} from 'react-native-webview';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-const Stack = createNativeStackNavigator();
-
-const App =()=>{
+  const btnAction=()=>{
+    console.warn("Button Pressed");
+  }
  return(
 <NavigationContainer>
 <Stack.Navigator  
@@ -411,10 +373,13 @@ headerTitleStyle:{
 }}>
 <Stack.Screen name='Login' component={Login}
 options={{
+  headerTitle:()=><Button title='Left' onPress={btnAction}></Button>,
+  // headerRight:()=><Button title='Right'></Button>, for right side button
+  headerRight:()=><Header></Header>,
   title:'Login',  /* for particular screen */
   headerStyle:{
   backgroundColor:'red',
-},
+}, 
 headerTintColor: "white",
 headerTitleStyle:{
   fontSize:15
@@ -427,18 +392,33 @@ headerTitleStyle:{
 </NavigationContainer>
  )};
 
- const Home=()=>{
+ const Header=()=>{
+  return(
+    <TextInput placeholder='name'></TextInput>
+  )
+ }
+
+ const Home=(props)=>{
+  const {name,age} = props.route.params;
   return (<View style = {{flex:1, justifyContent: 'center', alignItems: 'center' }}>
+    
 <Text style={{fontSize:30}}>Home Screen</Text>
+<Text>Name: {name}</Text>
+<Text>Age: {age}</Text>
   </View>
   )
   };
 
   const Login=(props)=>{
+    const [name, setName ]= useState("");
+    const [age, setAge] = useState("");
     return (<View style = {{flex:1, justifyContent: 'center', alignItems: 'center' }}>
+
   <Text style={{fontSize:30}}>Login Screen</Text>
+  <TextInput onChangeText={(text)=>setName(text)} placeholder='Enter name'></TextInput>
+  <TextInput onChangeText={(text)=>setAge(text)} placeholder='Enter age'></TextInput>
   <View style={{margin:10}}>
-  <Button title='Press-Here' onPress={()=> props.navigation.navigate("Home 1")}></Button>
+  <Button title='Press-Here' onPress={()=> props.navigation.navigate("Home 1", {name,age})}></Button>
   </View>
 
     </View>
