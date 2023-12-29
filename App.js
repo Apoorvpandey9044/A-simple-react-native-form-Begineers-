@@ -339,3 +339,50 @@ const App =()=>{
 
 
 export default App;
+
+// Navigations in React Native :- Stack Navigation 
+First install:- For expo :- npm install @react-navigation/native
+                            npx expo install react-native-screens react-native-safe-area-context
+                            npm install @react-navigation/native-stack
+For rest read documentation on :- React navigation 
+
+import { StatusBar } from 'expo-status-bar';
+import React, {useState} from  'react';
+import {Text , View , StyleSheet, Modal, Button} from 'react-native';
+import {WebView} from 'react-native-webview';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+const App =()=>{
+ return(
+<NavigationContainer>
+<Stack.Navigator>
+<Stack.Screen name='Login' component={Login}></Stack.Screen>
+<Stack.Screen name='Home 1' component={Home}></Stack.Screen>
+</Stack.Navigator>
+</NavigationContainer>
+ )};
+
+ const Home=()=>{
+  return (<View style = {{flex:1, justifyContent: 'center', alignItems: 'center' }}>
+<Text style={{fontSize:30}}>Home Screen</Text>
+  </View>
+  )
+  };
+
+  const Login=(props)=>{
+    return (<View style = {{flex:1, justifyContent: 'center', alignItems: 'center' }}>
+  <Text style={{fontSize:30}}>Login Screen</Text>
+  <View style={{margin:10}}>
+  <Button title='Press-Here' onPress={()=> props.navigation.navigate("Home 1")}></Button>
+  </View>
+
+    </View>
+    )
+    }
+
+
+
+export default App;
