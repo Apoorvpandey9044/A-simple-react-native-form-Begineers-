@@ -501,7 +501,7 @@ const Signup =()=>{
 
 export default App;
 
-//Api calling (calling by GET function simple way only one data)
+//Api calling (calling by GET function simple way only one data) using map function
 import React, { useEffect,useState } from "react";
 import { Text, Button, View } from "react-native";
 
@@ -570,3 +570,43 @@ const App = () => {
 };
 
 export default App;
+
+//Api calling using Flatlist (GET)
+import React, { useEffect,useState } from "react";
+import { Text, Button, View, ScrollView , FlatList} from "react-native";
+
+const App = () => {
+  const [data, setData] = useState(undefined);
+
+  const getAPIData = async () => {
+    //api call
+    const url = "https://jsonplaceholder.typicode.com/posts";
+    let result = await fetch(url);
+    result = await result.json();
+    setData(result);
+  };
+
+  useEffect(() => {
+    getAPIData();
+  }, []);
+  return (
+    <View style={{top:30}}>
+      <Text style={{fontSize:20}}>Mutiple data Api call</Text>
+      {
+        data ?
+        <FlatList
+        data={data}
+        renderItem={({item})=><View>
+          <Text style={{fontSize:20}}>{item.userId}</Text>
+          <Text style={{fontSize:20}}>{item.id}</Text>
+          <Text style={{fontSize:20}}>{item.title}</Text>
+          <Text style={{fontSize:10}}>{item.body}</Text>
+        </View>} /> : null
+}
+        
+    </View>
+  );
+};
+
+export default App;
+
