@@ -501,3 +501,72 @@ const Signup =()=>{
 
 export default App;
 
+//Api calling (calling by GET function simple way only one data)
+import React, { useEffect,useState } from "react";
+import { Text, Button, View } from "react-native";
+
+const App = () => {
+  const [data, setData] = useState(undefined);
+
+  const getAPIData = async () => {
+    //api call
+    const url = "https://jsonplaceholder.typicode.com/posts/1";
+    let result = await fetch(url);
+    result = await result.json();
+    setData(result);
+  };
+
+  useEffect(() => {
+    getAPIData();
+  }, []);
+  return (
+    <View style={{top:30}}>
+      <Text style={{fontSize:40}}>Api call</Text>
+      {
+        data ? <View style={{}}>
+            <Text style={{fontSize:30}}>{data.userId}</Text>
+            <Text style={{fontSize:30}}>{data.id}</Text>
+            <Text style={{fontSize:15}}>{data.title}</Text>
+            <Text style={{fontSize:12}}>{data.body}</Text>
+        </View>:null
+      }
+    </View>
+  );
+};
+
+export default App;
+//Api calling (GET {bhut sara data } multiple data)
+import React, { useEffect,useState } from "react";
+import { Text, Button, View, ScrollView } from "react-native";
+
+const App = () => {
+  const [data, setData] = useState(undefined);
+
+  const getAPIData = async () => {
+    //api call
+    const url = "https://jsonplaceholder.typicode.com/posts";
+    let result = await fetch(url);
+    result = await result.json();
+    setData(result);
+  };
+
+  useEffect(() => {
+    getAPIData();
+  }, []);
+  return (
+    <ScrollView style={{top:30}}>
+      <Text style={{fontSize:20}}>Mutiple data Api call</Text>
+      {
+        data ?
+        data.map((item)=><View style={{padding:10, borderBottomColor:"#ccc", borderBottomWidth:1}}>
+          <Text>UserId: {item.userId}</Text>
+          <Text>Id: {item.id}</Text>
+          <Text>Title: {item.title}</Text>
+          <Text>Body: {item.body}</Text>
+        </View>):null
+      }
+    </ScrollView>
+  );
+};
+
+export default App;
