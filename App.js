@@ -428,3 +428,76 @@ headerTitleStyle:{
 
 
 export default App;
+
+// Tab navigation (Bottom part)
+install:- npm install @react-navigation/bottom-tabs
+import { StatusBar } from 'expo-status-bar';
+import React, {useState} from  'react';
+import {Text , View , StyleSheet, Modal, Button, TextInput} from 'react-native';
+import {WebView} from 'react-native-webview';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+const Tab = createBottomTabNavigator();
+const App =()=>{
+  return(
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Login" component={Login} />
+        <Tab.Screen name="Signup" component={Signup}/>
+      </Tab.Navigator>
+    </NavigationContainer>
+  )}
+
+const Login =()=>{
+  return<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+    <Text style={{fontSize:20}}>Login</Text>
+  </View>
+}
+
+const Signup =()=>{
+  return<View>
+    <Text>Login</Text>
+  </View>
+}
+
+export default App;
+
+// Tab navigation for upper part
+install:- 1)npx expo install react-native-pager-view
+          2)npm install @react-navigation/material-top-tabs react-native-tab-view
+import { StatusBar } from 'expo-status-bar';
+import React, {useState} from  'react';
+import {Text , View , StyleSheet, Modal, Button, TextInput} from 'react-native';
+import {WebView} from 'react-native-webview';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
+const Tab = createMaterialTopTabNavigator();
+const App =()=>{
+  return(
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Login" component={Login} />
+        <Tab.Screen name="Signup" component={Signup}/>
+      </Tab.Navigator>
+    </NavigationContainer>
+  )}
+
+const Login =()=>{
+  return<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+    <Text style={{fontSize:20}}>Login</Text>
+  </View>
+}
+
+const Signup =()=>{
+  return<View>
+    <Text>Login</Text>
+  </View>
+}
+
+export default App;
+
