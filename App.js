@@ -609,4 +609,43 @@ const App = () => {
 };
 
 export default App;
+// api calling with ip address 
+import React, { useEffect,useState } from "react";
+import { Text, Button, View, ScrollView , FlatList} from "react-native";
+
+const App = () => {
+  const [data, setData] = useState(undefined);
+
+  const getAPIData = async () => {
+    //api call
+    const url = "http://system ip address:3000/users";
+    let result = await fetch(url);
+    result = await result.json();
+    setData(result);
+  };
+
+  useEffect(() => {
+    getAPIData();
+  }, []);
+  return (
+    <View style={{top:30}}>
+      <Text style={{fontSize:20}}>Mutiple data Api call</Text>
+      {
+        data ?
+        <FlatList
+        data={data}
+        renderItem={({item})=><View>
+          <Text style={{fontSize:20}}>{item.email}</Text>
+          <Text style={{fontSize:20}}>{item.id}</Text>
+          <Text style={{fontSize:20}}>{item.name}</Text>
+          <Text style={{fontSize:20}}>{item.age}</Text>
+        </View>} /> : null
+}
+        
+    </View>
+  );
+};
+
+export default App;
+
 
