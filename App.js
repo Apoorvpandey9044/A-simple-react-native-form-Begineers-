@@ -647,5 +647,129 @@ const App = () => {
 };
 
 export default App;
+// api calling using Static data (POST api
+import React from 'react';
+import {Text, View , Button} from 'react-native';
+
+const App = () =>{
+ const saveAPIData = async () => {
+  const data ={
+
+    name:"Apoorv",
+    age:"22",
+    email:"pandey@gmail.com"
+  }
+  const url = "http://192.168.1.3:3000/users";
+  let result = await fetch(url, {
+   method:"POST",
+   headers:{
+    "Content-Type": "application/json"
+   },
+   body: JSON. stringify(data)
+  })
+  result = await result.json();
+  console.warn(result);
+ }
+
+ return (
+  <View>
+    <Text style={{fontSize: 20, top:30}}>
+     Post APi call  
+    </Text>
+    <View style = {{top:40}}>
+    <Button title='Save data' onPress={saveAPIData}></Button>
+    </View>
+   
+  </View>
+ )
+};
+
+export default App;
+
+// api calling using dynamic data (login form using POST api with validations)
+import React, { useState } from 'react';
+import {Text, View , Button, TextInput, StyleSheet} from 'react-native';
+
+const App = () =>{
+  const [name,setName] = useState('');
+  const [age,setAge] = useState('');
+  const [email,setEmail] = useState('');
+
+  const  [nameError, setNameError] = useState('false');
+  const  [ageError, setAgeError] = useState('false');
+  const  [emailError, setEmailError] = useState('false');
+ const saveAPIData = async () => {
+  if(!name){
+    setNameError(true)
+  }
+  else{
+    setNameError(false)
+  }
+
+  if(!age){
+    setAgeError(true)
+  }
+  else{
+    setAgeError(false)
+  }
+
+  if(!email){
+    setEmailError(true)
+  }else{
+    setEmailError(false)
+  }
+  if(!name || !age || !email){
+    return false
+  }
+  const url = "http://192.168.1.3:3000/users";
+  let result = await fetch(url, {
+   method:"POST",
+   headers:{
+    "Content-Type": "application/json"
+   },
+   body: JSON. stringify({name,age,email})
+   });
+   result = await result.json();
+   if(result){
+    console.warn("Data added")
+   }
+ }
+
+ return (
+  <View>
+    <Text style={{fontSize: 20, top:30}}>
+     Post APi call  
+    </Text>
+    <TextInput style={styles.input} value={name} onChangeText={(text)=> setName(text)} placeholder='Enter name'></TextInput>
+    { nameError ? <Text style={styles.error}>Please enter a valid text</Text>:null}
+   
+    <TextInput style={styles.input} value={age} onChangeText={(text)=> setAge(text)} placeholder='Enter Age'></TextInput>
+    { ageError ? <Text style={styles.error}>Please enter a valid Age</Text>:null}
+  
+    <TextInput style={styles.input} value={email} onChangeText={(text)=> setEmail(text)} placeholder='Enter Email'></TextInput>
+    { emailError ? <Text style={styles.error}>Please enter a valid Email</Text>:null}
+    
+    <Button title='Save data' onPress={saveAPIData}></Button>
+  
+    
+   
+  </View>
+ )
+};
+const styles=StyleSheet.create({
+  input :{
+    borderColor: 'skyblue',
+    borderWidth: 2,
+    margin:30,
+    marginBottom:5,
+    padding:5
+    },
+    error: {
+     color:'red',
+     marginLeft:30
+    },
+})
+
+export default App;
 
 
