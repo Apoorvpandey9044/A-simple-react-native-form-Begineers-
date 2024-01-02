@@ -984,3 +984,41 @@ const styles = StyleSheet.create({
 })
 
 export default App;
+
+// Asych storage 
+
+import React, { useState, useRef } from 'react';
+import {Text, View, Button, TextInput, StyleSheet} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const App =()=>{
+  const [user,setUser] = useState('');
+  const setData = async()=>{
+    await AsyncStorage.setItem("user", "Apoorv Pandey")
+  }
+  const getData = async()=>{
+    const name = await AsyncStorage.getItem("user");
+    setUser(name)
+  }
+
+  const removeData = async()=>{
+    await AsyncStorage.removeItem("user")
+    setUser('')
+  }
+return(
+  <View style={{marginTop:100, marginLeft:40}}>
+    <Text style={{fontSize:30}}>Welcome to the app! | {user}</Text>
+    <View style={{justifyContent:'center', alignItems:'center', marginRight:50, top:20}}>
+      <Button title='Set data' onPress={setData}></Button>
+      </View>
+      <View style={{justifyContent:'center', alignItems:'center', marginRight:50, top:40}}>
+      <Button title='Get data' onPress={getData}></Button>
+      </View>
+      <View style={{justifyContent:'center', alignItems:'center', marginRight:50, top:60}}>
+      <Button title='Remove data' onPress={removeData}></Button>
+      </View>
+  </View>
+)
+}
+
+export default App;
