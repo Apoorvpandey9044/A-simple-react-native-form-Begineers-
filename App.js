@@ -772,7 +772,7 @@ const styles=StyleSheet.create({
 
 export default App;
 
-// form of api calling (update and delete)
+// form of api calling (update(PUT api) and delete )
 
 import React, { useEffect, useState } from 'react';
 import {Text, View , Button, TextInput, StyleSheet, ScrollView, Modal} from 'react-native';
@@ -829,17 +829,49 @@ const App = () =>{
         </View>):null
     }
     <Modal visible={showModal} transparent={true}>
-      <UserModal setShowModal={setShowModal} selectedUser={selectedUser}/>
+      <UserModal setShowModal={setShowModal} selectedUser={selectedUser} getAPIData={getAPIData}/>
     </Modal>
     </ScrollView>
  )
  };
  const UserModal = (props)=>{
+  const [name,setName] = useState();
+  const [age,setAge] = useState();
+  const [email,setEmail] = useState();
+
+  useEffect(()=>{
+    if(props.selectedUser){
+    setName(props.selectedUser.name);
+    setAge(props.selectedUser.age.toString());
+    setEmail(props.selectedUser.email);
+  }
+  },[props.selectedUser])
+
+  const updateUser = async()=>{
+    console.warn(name,age,email);
+    const url = "http://192.168.1.3:3000/users";
+    const id = props.selectedUser.id;
+    let result = await fetch(`${url}/${id}`,{
+      method:"Put",
+      headers:{
+        "Content-Type" : "application/json"
+      },
+      body:JSON.stringify({name,age,email})
+    });
+    result = await result.json();
+    if(result){
+      props.getAPIData();
+      props.showModal(false);
+    }
+  }
 
   return(
   <View style={styles.centeredView}>
         <View style = {styles.modalview}>
-          <Text>{props.selectedUser.name}</Text>
+          <TextInput style={styles.input} placeholder='Enter Name' value={name} onChangeText={(text)=>setName(text)}></TextInput>
+          <TextInput style={styles.input} placeholder='Enter Age' value={age} onChangeText={(text)=>setAge(text)}></TextInput>
+          <TextInput style={styles.input} placeholder='Enter Email' value={email} onChangeText={(text)=>setEmail(text)}></TextInput>
+          <View style = {{marginBottom:15}}><Button onPress={updateUser}title='Update'></Button></View>
           <Button title='close' onPress={()=>props.setShowModal(false)}></Button>
         </View>
       </View>
@@ -871,8 +903,14 @@ const styles=StyleSheet.create({
       shadowColor:"#000",
       shadowOpacity:0.70,
       elevation:5
-    }
+    },
+    input :{
+      borderColor: 'skyblue',
+      borderWidth: 2,
+      margin:30,
+      marginBottom:5,
+      padding:5
+      },     
 })
 
 export default App;
-
