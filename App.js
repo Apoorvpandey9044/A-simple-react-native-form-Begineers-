@@ -948,3 +948,39 @@ const App =()=>{
 
 
 export default App;
+
+// use of Ref in React native 
+import React, { useState, useRef } from 'react';
+import {Text, View, Button, TextInput, StyleSheet} from 'react-native';
+
+const App =()=>{
+  const input = useRef();
+
+  const updateInput = () =>{
+    input.current.focus();
+    input.current.setNativeProps({
+      fontSize:24,
+      color:'red'
+    })
+  }
+  return(
+    <View style={styles.container}>
+      <TextInput ref={input} style={styles.input} placeholder='Enter Name'></TextInput>
+      <TextInput style={styles.input} placeholder='Enter Password'></TextInput>
+      <Button title='update' onPress={updateInput}></Button>
+    </View>
+  )
+}
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    padding:16
+  },
+  input:{
+    borderColor:'skyblue',
+    borderWidth:2,
+    margin:10
+  }
+})
+
+export default App;
