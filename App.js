@@ -772,4 +772,107 @@ const styles=StyleSheet.create({
 
 export default App;
 
+// form of api calling (update and delete)
+
+import React, { useEffect, useState } from 'react';
+import {Text, View , Button, TextInput, StyleSheet, ScrollView, Modal} from 'react-native';
+
+const App = () =>{
+  const [data,setData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedUser,setSelectedUser] = useState(undefined)
+  const getAPIData  = async () =>{
+  const url = "http://192.168.1.3:3000/users";
+  let result = await fetch(url); 
+   result = await result.json();
+   if(result){
+    setData(result)
+   }
+ }
+
+ const deleteUser = async (id) =>{
+  const url = "http://192.168.1.3:3000/users";
+  let result = await fetch(`${url}/${id}`,{
+    method:"delete"
+  });
+  result = await result.json();
+   if(result){
+    console.warn("user deleted");
+    getAPIData();
+   }
+ }
+
+ useEffect(()=>{
+  getAPIData();
+ },[])
+
+ const updateUser=(data)=>{
+  setShowModal(true)
+  setSelectedUser(data)
+ }
+
+ return (
+  <ScrollView style={styles.container}>
+    <View style={styles.dataWrapper}>
+    <View style={{flex:1}}><Text>Name</Text></View>
+        <View style={{flex:1}}><Text>Age</Text></View>
+        <View style={{flex:1}}><Text>Operations</Text></View>
+    </View>
+    {
+      data.length? 
+      data.map((item)=><View style = {styles.dataWrapper}>
+        <View style={{flex:1}}><Text>{item.name}</Text></View>
+        <View style={{flex:1}}><Text>{item.age}</Text></View>
+        <View style={{flex:1}}><Text>{item.email}</Text></View>
+        <View ><Button onPress={()=>updateUser(item)} title='Update'></Button></View>
+        <View ><Button onPress={()=>deleteUser(item.id)} title='Delete'></Button></View>
+        </View>):null
+    }
+    <Modal visible={showModal} transparent={true}>
+      <UserModal setShowModal={setShowModal} selectedUser={selectedUser}/>
+    </Modal>
+    </ScrollView>
+ )
+ };
+ const UserModal = (props)=>{
+
+  return(
+  <View style={styles.centeredView}>
+        <View style = {styles.modalview}>
+          <Text>{props.selectedUser.name}</Text>
+          <Button title='close' onPress={()=>props.setShowModal(false)}></Button>
+        </View>
+      </View>
+ )}
+const styles=StyleSheet.create({
+  container :{
+    flex:1,
+    top:30
+    },
+    dataWrapper: {
+     
+     flexDirection:'row',
+     justifyContent:'space-around',
+     backgroundColor:'skyblue',
+     padding:8,
+     margin:5
+
+    },
+    centeredView:{
+      flex:1,
+      justifyContent:'center',
+      alignItems:'center',
+      
+    },
+    modalview:{
+      backgroundColor:'#fff',
+      padding:40,
+      borderRadius:10,
+      shadowColor:"#000",
+      shadowOpacity:0.70,
+      elevation:5
+    }
+})
+
+export default App;
 
